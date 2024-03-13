@@ -1,4 +1,4 @@
-import { Client, IntentsBitField, EmbedBuilder } from 'discord.js';
+import { Client, IntentsBitField, EmbedBuilder, ActivityType } from 'discord.js';
 import { config } from 'dotenv';
 
 config();
@@ -12,8 +12,31 @@ const client = new Client({
     ],
 });
 
+let status = [
+    {
+        name: 'Practicing coding',
+        type: ActivityType.Custom,
+    },
+    {
+        name: 'Status 1',
+        type: ActivityType.Watching,
+    },
+    {
+        name: 'Status 2',
+        type: ActivityType.Streaming,
+    },
+    {
+        name: 'Status 3',
+        type: ActivityType.Listening,
+    },
+]
+
 client.on('ready', (c) => {
     console.log(`${c.user.tag}`);
+    setInterval(() => {
+        let random = Math.floor(Math.random() * status.length);
+        client.user.setActivity(status[random]);
+    }, 10000)
 })
 
 client.on('messageCreate', (message) => {
